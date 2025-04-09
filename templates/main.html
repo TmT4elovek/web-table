@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- общий блок для всей страницы -->
+<div id="wrapper">
+    <!-- блок с карточками -->
+    <div class="flexDiv">
+        <!-- теги для фильтра -->
+        {% for tag in tags %}
+            <input type="checkbox" id="{{tag.name}}-box" checked />
+            <label for="{{tag.name}}-box">
+                <div class="tag {{tag.name}} pos-abs">{{tag.name}}</div>
+            </label>
+        {% endfor %}
+        <!-- карточки -->
+        {% for note in notes %}
+            <div class="note">
+                <!-- текст карточки -->
+                {{ note.text }}
+                <!-- тег -->
+                <div class="tag {{note.tag.name}}">{{ note.tag.name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

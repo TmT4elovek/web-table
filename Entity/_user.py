@@ -3,10 +3,12 @@ import datetime
 from sqlalchemy import Column, String, Integer, DateTime
 from sqlalchemy.orm import relationship
 
+from sqlalchemy_serializer import SerializerMixin
+
 from .db_session import SqlAlchemyBase
 
 
-class User(SqlAlchemyBase):
+class User(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'user'
 
     id         = Column(Integer, autoincrement=True, primary_key=True)
@@ -15,4 +17,4 @@ class User(SqlAlchemyBase):
     email      = Column(String, nullable=False)
     icon       = Column(String, nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
-    notes      = relationship('Note', backref='user', cascade='all, delete')
+    all_notes  = relationship('Note', backref='creator', cascade='all, delete')
