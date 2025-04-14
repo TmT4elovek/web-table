@@ -1,18 +1,137 @@
-/* подключаем внешний шрифт */
+/* внешний шрифт */
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
-/* Настройки для main.html */
-#wrapper {
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    color: #333333;
     font-family: "Inter", sans-serif;
+    background-color: whitesmoke;
 }
 
-.flexDiv {
+.alert {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.alert:empty {
+  display: none;
+}
+
+.btn-submit {
+    width: 150px;
+    height: 30px;
+    border: 0;
+    border-radius: 8px;
+    background-color:#8fd650;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+}
+
+.btn-submit:hover {
+    background-color:#71ab3e;
+    transition: all 300ms ease;
+}
+
+.input-group { 
+    position:relative; 
+  }
+  input         {
+    font-size:18px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:300px;
+    border:none;
+    border-bottom:1px solid #757575;
+  }
+  input:focus     { outline:none; }
+  
+  .input-label {
+    color:#999; 
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:10px;
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  
+  input:focus ~ .input-label, input:valid ~ .input-label    {
+    top:-20px;
+    font-size:14px;
+    color:#5264AE;
+  }
+  
+  .bar  { position:relative; display:block; width:300px; }
+  .bar:before, .bar:after   {
+    content:'';
+    height:2px; 
+    width:0;
+    bottom:1px; 
+    position:absolute;
+    background:#5264AE; 
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  .bar:before {
+    left:50%;
+  }
+  .bar:after {
+    right:50%; 
+  }
+  
+  input:focus ~ .bar:before, input:focus ~ .bar:after {
+    width:50%;
+  }
+  
+  .highlight {
+    position:absolute;
+    height:60%; 
+    width:100px; 
+    top:25%; 
+    left:0;
+    pointer-events:none;
+    opacity:0.5;
+  }
+  
+  input:focus ~ .highlight {
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
+  }
+  
+  @-webkit-keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to  { width:0; background:transparent; }
+  }
+  @-moz-keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to  { width:0; background:transparent; }
+  }
+  @keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to  { width:0; background:transparent; }
+  }
+
+
+/* Настройки для main.html */
+#main {
     display: flex;
     position: absolute;
     margin-top: 60px;
@@ -147,4 +266,41 @@ label {
 
 label:hover {
     opacity: 0.8;
+}
+
+/* Настройки для login.html */
+#login {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+#login h1 {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#login form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+#remember_me {
+    display: block;
+    width: 15px;
+    padding-right: 10px;
+}
+
+#login form p:has(#remember_me) {
+    left: -50%;
+    display: flex;
+    gap: 10px;
+    justify-items: left;
 }

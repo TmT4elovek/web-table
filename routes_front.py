@@ -1,21 +1,16 @@
 from flask import Blueprint, render_template
 
-import asyncio
-
 from Entity.__all_entities import Note, Tag
+from Entity import db_session
 
 front = Blueprint('Front', __name__, static_folder='/static/')
 
 @front.route('/', methods=['GET'])
 async def main():
-    tags = [
-        Tag(name='work'),
-        Tag(name='read'),
-        Tag(name='personal')
-    ]
-    notes = [
-        Note(user_id=0, text='Sigma', tag_id=0, tag=tags[0]),
-        Note(user_id=0, text='Sobolev', tag_id=1, tag=tags[1])
-    ]
+    session = db_session.create_session()
+
+    tags = session.query(Tag).all()
+    notes=[]
+    
+
     return render_template('main.html', title='Home', tags=tags, notes=notes)
-# <!-- <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}"> -->
