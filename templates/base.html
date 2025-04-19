@@ -5,8 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=logout" />
 </head>
 <body>
+    {% if user == 'auth' %}
+        <nav></nav>
+    {% else %}
+    <nav>
+        <a class="logo" href="/">
+            <img src="#" alt="Logo">
+        </a>
+        <div class="nav-auth">
+            {% if user != None %}
+                <a class="nav-a" href="#">{{user.username}}</a>
+                <a class="logout" href="/logout">
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                </a>
+            {% else %}
+                <a class="nav-a" href="/login">Login</a>
+                <a class="nav-a" href="/register">Register</a>
+            {% endif %}
+        </div> 
+    </nav>
+    {% endif %}
     {% block content %}{% endblock %}
 </body>
 </html>

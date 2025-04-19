@@ -11,7 +11,7 @@ class Note(SqlAlchemyBase, SerializerMixin):
 
     id      = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('user.id'))
+    creator = relationship("User", back_populates='all_notes', foreign_keys=[user_id])
     text    = Column(String(60), nullable=False)
     tag_id  = Column(Integer, ForeignKey('tag.id'))
-    tag     = relationship('Tag')
-    # creator    = relationship("User", backref='all_notes')
+    tag     = relationship('Tag', back_populates='notes', foreign_keys=[tag_id])

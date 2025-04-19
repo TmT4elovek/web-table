@@ -139,7 +139,7 @@ body {
     flex-wrap: wrap;
     max-width: 800px;
     left: 50%;
-    top: 0;
+    top: 60px;
     transform: translateX(-50%);
 }
 
@@ -303,4 +303,64 @@ label:hover {
     display: flex;
     gap: 10px;
     justify-items: left;
+}
+
+/* navbar */
+ul { 
+  margin: 0 auto 0; 
+  padding: 0; 
+  list-style: none; 
+  display: table;
+  width: 600px;
+  text-align: center;
+}
+li { 
+  display: table-cell; 
+  position: relative; 
+  padding: 15px 0;
+}
+.nav-a {
+  color: #000;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+}
+.nav-a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #000;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.nav-a:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
+
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.nav-auth {
+  display: flex;
+}
+
+.material-symbols-outlined {
+  color: #000;
+  padding-top: 50%;
 }

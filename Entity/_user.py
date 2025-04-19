@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, String, Integer, DateTime
+from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import relationship
 
 from sqlalchemy_serializer import SerializerMixin
@@ -21,8 +21,8 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
     email      = Column(String, nullable=False)
     icon       = Column(String, nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.now())
-    all_notes  = relationship('Note', backref='creator', cascade='all, delete')
+    all_notes  = relationship('Note', back_populates='creator', cascade='all, delete')
 
-    def check_password(enter_pass):
-        return check_password_hash(User.password, enter_pass)
+    def check_password(self, enter_pass):
+        return check_password_hash(self.password, enter_pass)
         
