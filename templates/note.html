@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="note">
+    {% if create == True %}
+        <h1>Create note</h1>
+    {% else %}
+        <h1>Edit note</h1>
+    {% endif %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <div class='input-group'>
+            {{ form.text(class='input-field', type='text') }}
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            {{ form.text.label(class='input-label') }}<br>
+            {% for error in form.text.errors %}
+                <div class="alert" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="tags-choice">
+            {% for elem in form.tag %}
+                <div class="tag-val">
+                    {{ elem }} {{ elem.label }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="alert">{{ message }}</div>
+        {{ form.submit(class='btn-submit', type='submit') }}
+    </form>
+</div>
+{% endblock %}

@@ -1,62 +1,73 @@
-from flask import Blueprint, render_template, redirect, Response
+from flask import Blueprint, render_template, redirect, request
 
-from flask_login import login_user, login_required, logout_user, current_user
-from flask_bcrypt import generate_password_hash
+from flask_login import current_user, login_required
 
-from Entity.__all_entities import Note, Tag, User
+from Entity.__all_entities import Tag, User, Note
 from Entity import db_session
 
-from forms import LoginForm, RegisterForm
+from forms import NoteForm
+
 
 front = Blueprint('Front', __name__, static_folder='/static/')
 
 @front.route('/', methods=['GET'])
 def main():
+    user = current_user if isinstance(current_user, User) else None
+    if not user:
+        return render_template('main.html', title='Home', tags=[], notes=[], user=user)
+    
     session = db_session.create_session()
-
+    
     tags = session.query(Tag).all()
-    notes=[
-    ]
-    return render_template('main.html', title='Home', tags=tags, notes=notes, user=current_user if isinstance(current_user, User) else None)
+    notes = session.query(User).filter(User.id == user.id).first().all_notes
+    
+    return render_template('main.html', title='Home', tags=tags, notes=notes, user=user)
 
-@front.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        session = db_session.create_session()
-        user = session.query(User).filter(User.username==form.username.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect('/')
-        return render_template('login.html', title='Log in', form=form, message='Неверный логин или пароль', user='auth')
-    return render_template('login.html', title='Log in', form=form, user='auth')
-
-
-@front.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        session = db_session.create_session()
-        if session.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html', title='Register', form=form, message='An account with that email already exists.', user='auth')
-        elif session.query(User).filter(User.username == form.username.data).first():
-            return render_template('register.html', title='Register', form=form, message='An account with that name already exists.', user='auth')
-        
-        user = User(
-            username=form.username.data,
-            email=form.email.data,
-            password=generate_password_hash(form.password1.data, 13).decode()
-        )
-        session.add(user)
-        session.commit()
-
-        login_user(user)
-        return redirect('/')            
-    return render_template('register.html', title='Register', form=form, user='auth')
-
-@front.route('/logout')
+@front.route('/create-note', methods=['GET', 'POST'])
 @login_required
-def logout():
-    logout_user()
-    redirect('/')
-    return main()
+def create_note():
+    session = db_session.create_session()
+    tags = session.query(Tag).all()
+    tags_labels, tags_ids = list(), list()
+    for tag in tags:
+        tags_labels.append(tag.name)
+        tags_ids.append(tag.id)
+    
+    form = NoteForm()
+    form.tag.choices = list(zip(tuple(tags_ids), tuple(tags_labels)))
+    if form.validate_on_submit():
+        note = Note(
+            user_id=current_user.id,
+            tag_id=form.tag.data,
+            text=form.text.data
+        )
+        session.add(note)
+        session.commit()
+        return redirect('/')
+    return render_template('note.html', title='Create note', create='True', form=form, user='not_home')
+
+
+@front.route('/edit-note/<int:id>')
+@login_required
+def edit_note(id):
+    session = db_session.create_session()
+    tags = session.query(Tag).all()
+    tags_labels, tags_ids = list(), list()
+    for tag in tags:
+        tags_labels.append(tag.name)
+        tags_ids.append(tag.id)
+    
+    form = NoteForm()
+    form.tag.choices = [tuple(tags_labels), tuple(tags_ids)]
+    if request.method == 'GET':
+        ...
+    if form.validate_on_submit():
+        note = Note(
+            user_id=current_user.id,
+            tag_id=form.tag.data,
+            text=form.text.data
+        )
+        session.add(note)
+        session.commit()
+        return redirect('/')
+    return render_template('note.html', title='Create note', create='True', form=form)

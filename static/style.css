@@ -360,7 +360,17 @@ nav {
   display: flex;
 }
 
-.material-symbols-outlined {
+.logout-icon {
   color: #000;
   padding-top: 50%;
+}
+
+.add-btn {
+  background-color: #000;
+  border-radius: 8px;
+  padding: 12px 10px 10px 10px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
 }

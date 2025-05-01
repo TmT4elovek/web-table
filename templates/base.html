@@ -8,18 +8,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=logout" />
 </head>
 <body>
-    {% if user == 'auth' %}
+    {% if user == 'not_home' %}
         <nav></nav>
     {% else %}
     <nav>
         <a class="logo" href="/">
             <img src="#" alt="Logo">
         </a>
+        {% if user != None %}
+            <a href="/create-note" class="add-btn">Add note +</a>
+        {% endif %}
         <div class="nav-auth">
             {% if user != None %}
                 <a class="nav-a" href="#">{{user.username}}</a>
                 <a class="logout" href="/logout">
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined logout-icon">
                         logout
                     </span>
                 </a>
