@@ -14,7 +14,7 @@ with app.app_context():
     from auth import auth
     from Entity import db_session
     
-    db_session.global_init('database.sqlite')
+    db_session.global_init('data/database.sqlite')
 
     app.register_blueprint(front)
     app.register_blueprint(auth)
