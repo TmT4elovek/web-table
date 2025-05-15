@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="note">
+<div id="note-form">
     {% if create == True %}
         <h1>Create note</h1>
     {% else %}
@@ -10,7 +10,7 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <div class='input-group'>
-            {{ form.text(class='input-field', type='text') }}
+            {{ form.text(class='input-field text', type='text') }}
             <span class="highlight"></span>
             <span class="bar"></span>
             {{ form.text.label(class='input-label') }}<br>
@@ -28,7 +28,12 @@
             {% endfor %}
         </div>
         <div class="alert">{{ message }}</div>
-        {{ form.submit(class='btn-submit', type='submit') }}
-    </form>
+        <div class="sub-del">
+            {{ form.submit(class='btn btn-submit', type='submit') }}
+            {% if create == False %}
+                <a href="/delete-note/{{ id }}" class="btn btn-del">Delete</a>
+            {% endif %}
+        </div>
+        </form>
 </div>
 {% endblock %}

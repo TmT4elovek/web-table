@@ -13,7 +13,7 @@
     {% endfor %}
     <!-- карточки -->
     {% for note in notes %}
-        <div class="note">
+        <div class="note" onclick="window.location.href='/edit-note/{{note.id}}'">
             <!-- текст карточки -->
             {{ note.text }}
             <!-- тег -->

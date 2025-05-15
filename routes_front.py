@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, abort
 
 from flask_login import current_user, login_required
 
@@ -26,16 +26,16 @@ def main():
 @front.route('/create-note', methods=['GET', 'POST'])
 @login_required
 def create_note():
-    session = db_session.create_session()
-    tags = session.query(Tag).all()
-    tags_labels, tags_ids = list(), list()
-    for tag in tags:
-        tags_labels.append(tag.name)
-        tags_ids.append(tag.id)
-    
     form = NoteForm()
-    form.tag.choices = list(zip(tuple(tags_ids), tuple(tags_labels)))
+    
+    if not form.tag.choices:
+        session = db_session.create_session()
+        tags = session.query(Tag).all()
+        form.tag.choices = [(tag.id, tag.name) for tag in tags]
+
     if form.validate_on_submit():
+        session = db_session.create_session()
+
         note = Note(
             user_id=current_user.id,
             tag_id=form.tag.data,
@@ -44,30 +44,42 @@ def create_note():
         session.add(note)
         session.commit()
         return redirect('/')
-    return render_template('note.html', title='Create note', create='True', form=form, user='not_home')
+    return render_template('note.html', title='Create note', create=True, form=form, user='not_home')
 
-
-@front.route('/edit-note/<int:id>')
+@front.route('/edit-note/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_note(id):
+    form = NoteForm()
+    
     session = db_session.create_session()
     tags = session.query(Tag).all()
-    tags_labels, tags_ids = list(), list()
-    for tag in tags:
-        tags_labels.append(tag.name)
-        tags_ids.append(tag.id)
+    form.tag.choices = [(tag.id, tag.name) for tag in tags]
     
-    form = NoteForm()
-    form.tag.choices = [tuple(tags_labels), tuple(tags_ids)]
+    note = session.query(Note).filter(Note.id == id, Note.creator == current_user).first()
+    if not note:
+        return abort(404)
+    
     if request.method == 'GET':
-        ...
+        form.process(data={'tag': note.tag_id})
+        form.text.data = note.text
+    
     if form.validate_on_submit():
-        note = Note(
-            user_id=current_user.id,
-            tag_id=form.tag.data,
-            text=form.text.data
-        )
-        session.add(note)
+        note.tag_id = form.tag.data
+        note.text = form.text.data
         session.commit()
         return redirect('/')
-    return render_template('note.html', title='Create note', create='True', form=form)
+    
+    return render_template('note.html', title='Edit note', create=False, form=form, id=id, user='not_home')
+
+
+@front.route('/delete-note/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_note(id):
+    session = db_session.create_session()
+    note = session.query(Note).filter(Note.id == id, Note.creator == current_user).first()
+    if note:
+        session.delete(note)
+        session.commit()
+        return redirect('/')
+    else:
+        return abort(404)

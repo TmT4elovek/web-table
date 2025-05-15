@@ -29,15 +29,19 @@ body {
   display: none;
 }
 
+.btn {
+  width: 150px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0;
+  font-size: 20px;
+}
+
 .btn-submit {
-    width: 150px;
-    height: 30px;
-    border: 0;
-    border-radius: 8px;
     background-color:#8fd650;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 0;
 }
 
 .btn-submit:hover {
@@ -45,89 +49,122 @@ body {
     transition: all 300ms ease;
 }
 
+.btn-del {
+    background-color:#bd2424;
+    text-decoration: none;
+    color:#000;
+    text-align: center;
+}
+
+.btn-del:hover {
+    background-color:#9b1d1d;
+    transition: all 300ms ease;
+}
+
+.sub-del {
+    display: flex;
+    gap: 40px;
+}
+
+#note-form {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 60px;
+  max-width: 800px;
+  gap: 20px;
+  align-items: center;
+  width: 50vw;
+  height: 50vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .input-group { 
-    position:relative; 
-  }
-  input         {
-    font-size:18px;
-    padding:10px 10px 10px 5px;
-    display:block;
-    width:300px;
-    border:none;
-    border-bottom:1px solid #757575;
-  }
-  input:focus     { outline:none; }
-  
-  .input-label {
-    color:#999; 
-    font-size:18px;
-    font-weight:normal;
-    position:absolute;
-    pointer-events:none;
-    left:5px;
-    top:10px;
-    transition:0.2s ease all; 
-    -moz-transition:0.2s ease all; 
-    -webkit-transition:0.2s ease all;
-  }
-  
-  input:focus ~ .input-label, input:valid ~ .input-label    {
-    top:-20px;
-    font-size:14px;
-    color:#5264AE;
-  }
-  
-  .bar  { position:relative; display:block; width:300px; }
-  .bar:before, .bar:after   {
-    content:'';
-    height:2px; 
-    width:0;
-    bottom:1px; 
-    position:absolute;
-    background:#5264AE; 
-    transition:0.2s ease all; 
-    -moz-transition:0.2s ease all; 
-    -webkit-transition:0.2s ease all;
-  }
-  .bar:before {
-    left:50%;
-  }
-  .bar:after {
-    right:50%; 
-  }
-  
-  input:focus ~ .bar:before, input:focus ~ .bar:after {
-    width:50%;
-  }
-  
-  .highlight {
-    position:absolute;
-    height:60%; 
-    width:100px; 
-    top:25%; 
-    left:0;
-    pointer-events:none;
-    opacity:0.5;
-  }
-  
-  input:focus ~ .highlight {
-    -webkit-animation:inputHighlighter 0.3s ease;
-    -moz-animation:inputHighlighter 0.3s ease;
-    animation:inputHighlighter 0.3s ease;
-  }
-  
-  @-webkit-keyframes inputHighlighter {
-    from { background:#5264AE; }
-    to  { width:0; background:transparent; }
-  }
-  @-moz-keyframes inputHighlighter {
-    from { background:#5264AE; }
-    to  { width:0; background:transparent; }
-  }
-  @keyframes inputHighlighter {
-    from { background:#5264AE; }
-    to  { width:0; background:transparent; }
-  }
+  position:relative; 
+}
+input         {
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus     { outline:none; }
+
+.input-label {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+input:focus ~ .input-label, input:valid ~ .input-label    {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+.bar  { position:relative; display:block; width:300px; }
+.bar:before, .bar:after   {
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+@-webkit-keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to  { width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to  { width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to  { width:0; background:transparent; }
+}
 
 
 /* Настройки для main.html */
@@ -216,6 +253,7 @@ input[type="checkbox"] {
     flex-direction: column;
     justify-content: space-between;
     transition: all 300ms ease-in-out 0s;
+    cursor: pointer
 }
 
 .note:hover {
@@ -373,4 +411,19 @@ nav {
   text-decoration: none;
   color: #fff;
   text-align: center;
+}
+
+.text {
+  width: 100%;
+}
+
+input[name='tag'] {
+  width: 15px;
+  height: 15px;
+  margin-top: 4px;
+}
+
+.tag-val {
+  display: flex;
+  gap: 7px
 }
